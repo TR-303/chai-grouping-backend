@@ -2,12 +2,12 @@ package com.tongji.chaigrouping.groupservice.service.impl;
 
 import com.tongji.chaigrouping.commonutils.dto.GroupDetailResponseDto;
 import com.tongji.chaigrouping.commonutils.dto.GroupInfoDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupMemberDto;
+import com.tongji.chaigrouping.commonutils.dto.GroupMemberBriefDto;
 import com.tongji.chaigrouping.commonutils.dto.UserGroupListDto;
 import com.tongji.chaigrouping.commonutils.entity.Group;
 import com.tongji.chaigrouping.commonutils.entity.Membership;
-import com.tongji.chaigrouping.groupservice.mapper.GroupMapper;
-import com.tongji.chaigrouping.groupservice.mapper.MembershipMapper;
+import com.tongji.chaigrouping.commonutils.mapper.GroupMapper;
+import com.tongji.chaigrouping.commonutils.mapper.MembershipMapper;
 import com.tongji.chaigrouping.groupservice.service.GroupOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class GroupOperationServiceImpl implements GroupOperationService {
 //        }
 
         // 获取群组成员列表
-        List<GroupMemberDto> members = groupMapper.getGroupMembers(groupId);
+        List<GroupMemberBriefDto> members = groupMapper.getGroupMembers(groupId);
         if (groupDetail != null) {
             groupDetail.setMembers(members);
         }

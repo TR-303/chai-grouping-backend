@@ -11,5 +11,5 @@ public class GroupDetailResponseDto {
     private String description;
     private Integer volume;
     private Integer visibility;
-    private List<GroupMemberDto> members;
+    private List<GroupMemberBriefDto> members;
 }

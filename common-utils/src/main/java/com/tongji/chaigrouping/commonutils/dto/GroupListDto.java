@@ -2,11 +2,15 @@ package com.tongji.chaigrouping.commonutils.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class GroupInfoDto {
+public class GroupListDto {
+    Integer groupId;
     String name;
     String description;
+    Integer current_members;
     Integer volume;
-    Integer visibility;
+    Date created_at;
     Integer approvalRequired;
 }

@@ -1,9 +1,9 @@
-package com.tongji.chaigrouping.groupservice.mapper;
+package com.tongji.chaigrouping.commonutils.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tongji.chaigrouping.commonutils.dto.GroupDetailResponseDto;
 import com.tongji.chaigrouping.commonutils.dto.GroupInfoDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupMemberDto;
+import com.tongji.chaigrouping.commonutils.dto.GroupMemberBriefDto;
 import com.tongji.chaigrouping.commonutils.dto.UserGroupListDto;
 import com.tongji.chaigrouping.commonutils.entity.Group;
 import org.apache.ibatis.annotations.Mapper;
@@ -56,7 +56,7 @@ public interface GroupMapper extends BaseMapper<Group> {
         WHERE m.group_id = #{groupId} AND g.disbanded = 0
         order by isLeader desc
     """)
-    List<GroupMemberDto> getGroupMembers(@Param("groupId") Integer groupId);
+    List<GroupMemberBriefDto> getGroupMembers(@Param("groupId") Integer groupId);
 
     @Select("""
         SELECT 
@@ -113,4 +113,10 @@ public interface GroupMapper extends BaseMapper<Group> {
             "FROM `group` WHERE visibility = 1 && `group`.disbanded = 0 and #{userId} not in (select user_id from membership where group_id = `group`.group_id)")
     List<GroupInfoDto> findVisibleGroups(Integer userId);
 
+    @Select("""
+        SELECT #{userId} = g.leader_id
+        FROM `group` g
+        WHERE group_id = #{groupId}
+    """)
+    Boolean isLeader(Integer groupId, Integer userId);
 }
