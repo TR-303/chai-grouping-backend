@@ -17,7 +17,6 @@ public class TaskCreationServiceImpl implements TaskCreationService {
 
     @Override
     public Integer createTask(Integer groupId, TaskCreationDto taskCreationDto) {
-
         Task task = new Task();
         task.initTask(groupId, taskCreationDto);
         taskMapper.insert(task);

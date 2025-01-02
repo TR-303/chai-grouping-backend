@@ -1,4 +1,4 @@
-package com.tongji.chaigrouping.userservice;
+package com.tongji.chaigrouping.notificationservice;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan("com.tongji.chaigrouping")
 @MapperScan("com.tongji.chaigrouping.commonutils.mapper")
-public class UserServiceApplication {
+public class NotificationServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
+        SpringApplication.run(NotificationServiceApplication.class, args);
     }
 }

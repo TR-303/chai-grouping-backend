@@ -24,11 +24,12 @@ public class GroupTaskManagementServiceImpl implements GroupTaskManagementServic
 
     @Override
     public void reassignTask(Integer taskId, Integer assigneeId) {
-        Task task = taskMapper.selectById(taskId);
+        Task task = taskMapper.selectDetailById(taskId);
         if (task == null) {
             throw new RuntimeException("任务不存在");
         }
         task.reassign(assigneeId);
+        taskMapper.updateById(task);
     }
 
     @Override
