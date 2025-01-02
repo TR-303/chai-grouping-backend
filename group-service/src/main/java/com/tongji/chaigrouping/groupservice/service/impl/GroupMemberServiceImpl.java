@@ -2,6 +2,7 @@ package com.tongji.chaigrouping.groupservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tongji.chaigrouping.commonutils.dto.GroupMemberDetailDto;
+import com.tongji.chaigrouping.commonutils.entity.Group;
 import com.tongji.chaigrouping.commonutils.entity.Membership;
 import com.tongji.chaigrouping.commonutils.mapper.GroupMapper;
 import com.tongji.chaigrouping.commonutils.mapper.MembershipMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Date;
 
 @Service
 public class GroupMemberServiceImpl implements GroupMemberService {
@@ -53,6 +55,26 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 //        taskMapper.markUnassigned(groupId, memberId);
         ///  TODO
         membershipMapper.delete(queryWrapper);
+    }
+
+    @Override
+    public void addMember(Integer leaderId, Integer groupId, Integer memberId) throws AccessDeniedException {
+        if(!groupMapper.isLeader(groupId, leaderId)){
+            throw new AccessDeniedException("You are not the leader of this group");
+        }
+
+        Membership membership = new Membership(groupId, memberId, new Date());
+        membershipMapper.insert(membership);
+    }
+
+    @Override
+    public void transferLeader(Integer leaderId, Integer groupId, Integer memberId) throws AccessDeniedException {
+        if(!groupMapper.isLeader(groupId, leaderId)){
+            throw new AccessDeniedException("You are not the leader of this group");
+        }
+        Group group = groupMapper.selectById(groupId);
+        group.setLeaderId(memberId);
+        groupMapper.updateById(group);
     }
 
 

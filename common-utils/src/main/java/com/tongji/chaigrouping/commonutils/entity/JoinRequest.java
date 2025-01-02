@@ -1,12 +1,14 @@
 package com.tongji.chaigrouping.commonutils.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 
 import static com.baomidou.mybatisplus.annotation.IdType.AUTO;
 
+@AllArgsConstructor
 @Data
 public class JoinRequest {
     @TableId(type = AUTO)

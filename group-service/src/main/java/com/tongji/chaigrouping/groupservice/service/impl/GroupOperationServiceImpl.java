@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.*;
 
 @Service
@@ -36,19 +37,18 @@ public class GroupOperationServiceImpl implements GroupOperationService {
      * @param groupId 目标群组 ID
      * @return GroupDetailResponseDto 包含群组详情和成员列表
      */
-    public GroupDetailResponseDto groupDetail(Integer memberId, Integer groupId) {
+    public GroupDetailResponseDto groupDetail(Integer memberId, Integer groupId) throws AccessDeniedException {
         // 获取群组详细信息
         GroupDetailResponseDto groupDetail = groupMapper.getGroupDetail(groupId);
-//        if (groupDetail == null) {
-//            // 处理群组不存在的情况
-////            throw new GroupNotFoundException("群组不存在");
-//        }
+        if (groupDetail == null) {
+            // 处理群组不存在的情况
+            throw new AccessDeniedException("群组已解散或不存在");
+        }
 
         // 获取群组成员列表
         List<GroupMemberBriefDto> members = groupMapper.getGroupMembers(groupId);
-        if (groupDetail != null) {
-            groupDetail.setMembers(members);
-        }
+        groupDetail.setMembers(members);
+
 
         // 可选：根据 memberId 进行权限检查或自定义返回内容
         // 例如，检查当前用户是否为群组成员或群组领导
@@ -103,14 +103,14 @@ public class GroupOperationServiceImpl implements GroupOperationService {
         Map<String, Object> result = new HashMap<>();
 
         // 验证群组是否存在且未解散
-        Integer leaderId = groupMapper.getGroupLeaderId(groupId);
-        if (leaderId == null) {
-            result.put("message", "群组不存在或已解散。");
+        Group group = groupMapper.selectById(groupId);
+        if (group.getDisbanded() != 0) {
+            result.put("message", "该群组已解散。");
             return result;
         }
 
         // 验证当前用户是否为群组领导者
-        if (!leaderId.equals(userId)) {
+        if (groupMapper.isLeader(groupId, userId)) {
             result.put("message", "您无权更新此群组。");
             return result;
         }
@@ -150,7 +150,9 @@ public class GroupOperationServiceImpl implements GroupOperationService {
         }
         // TODO: 清除入队申请等其他操作
 
-        groupMapper.selectById(groupId).setDisbanded(1);
+        Group group = groupMapper.selectById(groupId);
+        group.setDisbanded(1);
+        groupMapper.updateById(group);
         result.put("message", "小组解散成功");
         return result;
     }

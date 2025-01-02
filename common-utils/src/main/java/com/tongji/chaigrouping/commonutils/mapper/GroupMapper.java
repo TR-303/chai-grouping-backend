@@ -1,10 +1,7 @@
 package com.tongji.chaigrouping.commonutils.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tongji.chaigrouping.commonutils.dto.GroupDetailResponseDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupInfoDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupMemberBriefDto;
-import com.tongji.chaigrouping.commonutils.dto.UserGroupListDto;
+import com.tongji.chaigrouping.commonutils.dto.*;
 import com.tongji.chaigrouping.commonutils.entity.Group;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -72,7 +69,7 @@ public interface GroupMapper extends BaseMapper<Group> {
         FROM `membership` m
         WHERE m.group_id = #{groupId}
     """)
-    int getMemberCount(Integer groupId);
+    Integer getMemberCount(Integer groupId);
 
     /**
      * 更新群组信息
@@ -111,7 +108,7 @@ public interface GroupMapper extends BaseMapper<Group> {
      */
     @Select("SELECT group_id AS groupId, name, description, volume, visibility, approval_required AS approvalRequired " +
             "FROM `group` WHERE visibility = 1 && `group`.disbanded = 0 and #{userId} not in (select user_id from membership where group_id = `group`.group_id)")
-    List<GroupInfoDto> findVisibleGroups(Integer userId);
+    List<GroupListDto> findVisibleGroups(Integer userId);
 
     @Select("""
         SELECT #{userId} = g.leader_id

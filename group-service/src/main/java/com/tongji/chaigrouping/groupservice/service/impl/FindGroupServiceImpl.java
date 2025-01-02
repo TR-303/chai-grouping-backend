@@ -2,6 +2,7 @@ package com.tongji.chaigrouping.groupservice.service.impl;
 
 import com.tongji.chaigrouping.commonutils.dto.GroupInfoDto;
 
+import com.tongji.chaigrouping.commonutils.dto.GroupListDto;
 import com.tongji.chaigrouping.commonutils.mapper.GroupMapper;
 import com.tongji.chaigrouping.groupservice.service.FindGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,13 @@ public class FindGroupServiceImpl implements FindGroupService {
     private GroupMapper groupMapper;
 
     @Override
-    public List<GroupInfoDto> findGroup(Integer userId) {
+    public List<GroupListDto> findGroup(Integer userId) {
         groupMapper.findVisibleGroups(userId);
         return null;
     }
 
     @Override
-    public List<GroupInfoDto> findGroupByAI(Integer userId) {
+    public List<GroupListDto> findGroupByAI(Integer userId) {
         return null;
     }
 }
