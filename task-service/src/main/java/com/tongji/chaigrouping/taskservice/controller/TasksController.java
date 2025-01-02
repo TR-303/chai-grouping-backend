@@ -61,12 +61,12 @@ public class TasksController {
         return ResponseEntity.ok(Map.of("message", "任务重新分配成功"));
     }
 
-    @GetMapping("/{group_id}")
+    @GetMapping("/group/{group_id}")
     public ResponseEntity<List<TaskListItemDto>> getGroupTaskList(@PathVariable("group_id") Integer groupId) {
         return ResponseEntity.ok(groupTaskManagementService.getTaskList(groupId));
     }
 
-    @GetMapping("/api/tasks/{task_id}")
+    @GetMapping("/{task_id}")
     public ResponseEntity<TaskDetailDto> getTaskDetail(@PathVariable("task_id") Integer taskId){
         return ResponseEntity.ok(groupTaskManagementService.getTaskDetail(taskId));
     }

@@ -1,6 +1,7 @@
 package com.tongji.chaigrouping.commonutils.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.tongji.chaigrouping.commonutils.dto.TaskCreationDto;
 import com.tongji.chaigrouping.commonutils.dto.TaskDetailDto;
@@ -22,10 +23,13 @@ public class Task {
     private String state;
     private Date deadline;
 
+    @TableField(exist = false)
     private User user;
 
+    @TableField(exist = false)
     private Group group;
 
+    @TableField(exist = false)
     private List<Submission> submissions;
 
     public void initTask(Integer groupId, TaskCreationDto taskCreationDto) {
@@ -46,7 +50,7 @@ public class Task {
         TaskListItemDto taskListItemDto = new TaskListItemDto();
         taskListItemDto.setTaskId(this.taskId);
         taskListItemDto.setUserId(this.userId);
-        taskListItemDto.setUsername(this.user.getUsername());
+        taskListItemDto.setUsername(this.user == null ? null : this.user.getUsername());
         taskListItemDto.setTitle(this.title);
         taskListItemDto.setDeadline(this.deadline);
         taskListItemDto.setState(this.state);
@@ -59,12 +63,13 @@ public class Task {
     public TaskDetailDto toTaskInfoDto() {
         TaskDetailDto taskDetailDto = new TaskDetailDto();
         taskDetailDto.setTaskId(this.taskId);
+        taskDetailDto.setGroupId(this.groupId);
         taskDetailDto.setUserId(this.userId);
         taskDetailDto.setTitle(this.title);
         taskDetailDto.setDescription(this.description);
         taskDetailDto.setState(this.state);
         taskDetailDto.setDeadline(this.deadline);
-        taskDetailDto.setUsername(this.user.getUsername());
+        taskDetailDto.setUsername(this.user == null ? null : this.user.getUsername());
         taskDetailDto.setSubmissions(this.submissions.stream().map(Submission::toSubmissionListItemDto).collect(Collectors.toList()));
         return taskDetailDto;
     }

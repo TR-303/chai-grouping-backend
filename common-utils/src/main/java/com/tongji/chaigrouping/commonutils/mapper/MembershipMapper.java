@@ -1,4 +1,4 @@
-package com.tongji.chaigrouping.groupservice.mapper;
+package com.tongji.chaigrouping.commonutils.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tongji.chaigrouping.commonutils.entity.Membership;
