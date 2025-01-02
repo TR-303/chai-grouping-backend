@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    nacos:
+      serverAddr: 127.0.0.1:8848
+      username: 'nacos'
+      password: 'nacos'
+
+  config:
+    import:
+      - nacos:gateway-config.yaml?refreshEnabled=true&group=CHAI_GROUPING
+      - nacos:consts.yaml?refreshEnabled=true&group=CHAI_GROUPING
