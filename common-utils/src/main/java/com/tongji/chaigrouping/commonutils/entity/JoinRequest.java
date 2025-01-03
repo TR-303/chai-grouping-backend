@@ -1,6 +1,8 @@
 package com.tongji.chaigrouping.commonutils.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.tongji.chaigrouping.commonutils.dto.JoinRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -1,6 +1,8 @@
 package com.tongji.chaigrouping.commonutils.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.tongji.chaigrouping.commonutils.dto.NotificationDetailDto;
 import lombok.Data;
 
 import static com.baomidou.mybatisplus.annotation.IdType.AUTO;
@@ -14,4 +16,5 @@ public class Notification {
     private String title;
     private String content;
     private Integer joinRequestId;
+    private Integer hasRead;
 }

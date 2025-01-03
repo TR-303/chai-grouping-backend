@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tongji.chaigrouping.commonutils.mapper.NotificationMapper">
+
+    <resultMap id="NotificationListItemDtoResultMap"
+               type="com.tongji.chaigrouping.commonutils.dto.NotificationListItemDto">
+        <id property="notificationId" column="notification_id"/>
+        <result property="title" column="title"/>
+        <result property="createTime" column="creation_time"/>
+        <result property="read" column="has_read"/>
+    </resultMap>
+
+    <select id="getNotificationsByUserId" parameterType="int" resultMap="NotificationListItemDtoResultMap">
+        SELECT notification_id, title, creation_time, has_read
+        FROM notification
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="markAllAsRead" parameterType="int">
+        UPDATE notification
+        SET has_read = 1
+        WHERE user_id = #{userId}
+    </update>
+
+    <resultMap id="NotificationDetailDtoResultMap" type="com.tongji.chaigrouping.commonutils.dto.NotificationDetailDto">
+        <id property="notificationId" column="notification_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="creationTime" column="creation_time"/>
+        <result property="read" column="has_read"/>
+        <association property="joinRequest" column="join_request_id"
+                     javaType="com.tongji.chaigrouping.commonutils.dto.JoinRequestDto">
+            <id property="joinRequestId" column="join_request_id"/>
+            <result property="requesterId" column="user_id"/>
+            <result property="groupId" column="group_id"/>
+            <result property="description" column="description"/>
+            <result property="creationTime" column="creation_time"/>
+            <result property="status" column="state"/>
+        </association>
+    </resultMap>
+
+    <select id="getNotificationDetailById" parameterType="int" resultMap="NotificationDetailDtoResultMap">
+        SELECT n.notification_id,
+               n.title,
+               n.content,
+               n.creation_time,
+               n.has_read,
+               n.join_request_id,
+               jr.join_request_id,
+               jr.user_id,
+               jr.group_id,
+               jr.description,
+               jr.creation_time AS jr_creation_time,
+               jr.state,
+               g.name
+        FROM notification n
+                 LEFT JOIN join_request jr ON n.join_request_id = jr.join_request_id
+                 LEFT JOIN `group` g ON jr.group_id = g.group_id
+        WHERE n.notification_id = #{notificationId}
+    </select>
+
+    <select id="getJoinRequestByUserId" parameterType="int" resultType="com.tongji.chaigrouping.commonutils.entity.JoinRequest">
+        SELECT jr.join_request_id,
+               jr.user_id,
+               jr.group_id,
+               jr.description,
+               jr.creation_time,
+               jr.state
+        FROM join_request jr
+                 LEFT JOIN notification n ON jr.join_request_id = n.join_request_id
+        WHERE n.user_id = #{userId}
+    </select>
+
+</mapper>

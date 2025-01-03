@@ -1,7 +1,7 @@
 package com.tongji.chaigrouping.notificationservice.service;
 
-import com.tongji.chaigrouping.commonutils.entity.Notification;
+import com.tongji.chaigrouping.commonutils.dto.NotificationDetailDto;
 
 public interface NotificationDetailService {
-//    NotificationDetailDto readNotification(Integer notificationId);
+    NotificationDetailDto readNotification(Integer notificationId);
 }

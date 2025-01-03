@@ -12,3 +12,7 @@ spring:
     import:
       - nacos:userservice-config.yaml?refreshEnabled=true&group=CHAI_GROUPING
       - nacos:consts.yaml?refreshEnabled=true&group=CHAI_GROUPING
+
+logging:
+  level:
+    org.springframework.web: debug
