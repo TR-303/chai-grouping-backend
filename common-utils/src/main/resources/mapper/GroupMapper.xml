@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tongji.chaigrouping.commonutils.mapper.GroupMapper">
+
+    <resultMap id="GroupListDtoResultMap" type="com.tongji.chaigrouping.commonutils.dto.GroupListDto">
+        <id property="groupId" column="group_id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="currentMembers" column="current_members"/>
+        <result property="volume" column="volume"/>
+        <result property="createdAt" column="creation_date"/>
+        <result property="approvalRequired" column="approval_required"/>
+    </resultMap>
+
+    <select id="filterGroup" parameterType="map" resultMap="GroupListDtoResultMap">
+    SELECT
+        g.group_id,
+        g.name,
+        g.description,
+        g.volume AS volume,
+        g.creation_date,
+        g.approval_required,
+        (SELECT COUNT(*) FROM membership m WHERE m.group_id = g.group_id) AS current_members
+        FROM
+        `group` g
+        WHERE
+        g.visibility = 1
+        AND g.disbanded = 0
+        AND g.group_id NOT IN (
+        SELECT group_id FROM membership WHERE user_id = #{userId}
+        )
+        <if test="filter.keyword != null and filter.keyword != ''">
+            AND (g.name LIKE CONCAT('%', #{filter.keyword}, '%') OR g.description LIKE CONCAT('%', #{filter.keyword}, '%'))
+        </if>
+        <if test="filter.maxVolume != null">
+            AND g.volume &lt;= #{filter.maxVolume}
+        </if>
+        <if test="filter.minVolume != null">
+            AND g.volume &gt;= #{filter.minVolume}
+        </if>
+        <if test="filter.createdBefore != null">
+            AND g.creation_date &lt;= #{filter.createdBefore}
+        </if>
+        <if test="filter.createdAfter != null">
+            AND g.creation_date &gt;= #{filter.createdAfter}
+        </if>
+        ORDER BY g.creation_date DESC
+        LIMIT 100
+    </select>
+
+</mapper>

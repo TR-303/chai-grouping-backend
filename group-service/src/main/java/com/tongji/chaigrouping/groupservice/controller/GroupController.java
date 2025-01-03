@@ -2,6 +2,7 @@ package com.tongji.chaigrouping.groupservice.controller;
 
 
 import com.tongji.chaigrouping.commonutils.dto.*;
+import com.tongji.chaigrouping.groupservice.service.FindGroupService;
 import com.tongji.chaigrouping.groupservice.service.GroupMemberService;
 import com.tongji.chaigrouping.groupservice.service.GroupOperationService;
 import com.tongji.chaigrouping.groupservice.service.JoinRequestService;
@@ -22,6 +23,8 @@ public class GroupController {
     private GroupMemberService groupMemberService;
     @Autowired
     private JoinRequestService joinRequestService;
+    @Autowired
+    private FindGroupService findGroupService;
 
     // 获取用户的组
     @GetMapping
@@ -132,4 +135,14 @@ public class GroupController {
     }
 
 
+//    @GetMapping("/search/{keyword}")
+//    public ResponseEntity<Object> searchGroup(@RequestHeader("X-User-id") Integer userId,@PathVariable String keyword) {
+//        return ResponseEntity.ok(findGroupService.searchGroup(userId,keyword));
+//    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<Object> filterGroup(@RequestHeader("X-User-id") Integer userId,
+                                              @RequestBody GroupFilterDto groupFilterDto) {
+        return ResponseEntity.ok(findGroupService.filterGroup(userId,groupFilterDto));
+    }
 }

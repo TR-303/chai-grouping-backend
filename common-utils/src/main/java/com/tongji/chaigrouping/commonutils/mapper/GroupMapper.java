@@ -1,5 +1,6 @@
 package com.tongji.chaigrouping.commonutils.mapper;
-
+import com.tongji.chaigrouping.commonutils.dto.GroupListDto;
+import com.tongji.chaigrouping.commonutils.dto.GroupFilterDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tongji.chaigrouping.commonutils.dto.*;
 import com.tongji.chaigrouping.commonutils.entity.Group;
@@ -111,9 +112,19 @@ public interface GroupMapper extends BaseMapper<Group> {
     List<GroupListDto> findVisibleGroups(Integer userId);
 
     @Select("""
+        SELECT group_id AS groupId, name, description, volume, visibility, approval_required AS approvalRequired
+        FROM `group`
+        WHERE visibility = 1 AND disbanded = 0 AND #{userId} NOT IN (SELECT user_id FROM membership WHERE group_id = `group`.group_id)
+        AND name LIKE CONCAT('%', #{keyword}, '%')
+    """)
+    List<GroupListDto> matchVisibleGroups(@Param("userId") Integer userId, @Param("keyword") String keyword);
+
+    @Select("""
         SELECT #{userId} = g.leader_id
         FROM `group` g
         WHERE group_id = #{groupId}
     """)
     Boolean isLeader(Integer groupId, Integer userId);
+
+    List<GroupListDto> filterGroup(@Param("userId") Integer userId,@Param("filter")  GroupFilterDto filter);
 }
