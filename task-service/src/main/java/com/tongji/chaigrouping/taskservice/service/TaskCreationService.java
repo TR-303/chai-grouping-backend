@@ -1,6 +1,6 @@
 package com.tongji.chaigrouping.taskservice.service;
 
-import com.tongji.chaigrouping.commonutils.dto.AssigneeRecommendationDto;
+import com.tongji.chaigrouping.aiservice.TaskMatchResponse;
 import com.tongji.chaigrouping.commonutils.dto.TaskCreationDto;
 import com.tongji.chaigrouping.commonutils.dto.TaskDescriptionDto;
 import com.tongji.chaigrouping.commonutils.exception.AiServiceNotAvailableException;
@@ -8,6 +8,6 @@ import com.tongji.chaigrouping.commonutils.exception.AiServiceNotAvailableExcept
 public interface TaskCreationService {
     Integer createTask(Integer groupId, TaskCreationDto taskCreationDto);
 
-    AssigneeRecommendationDto recommendAssignee(Integer groupId, TaskDescriptionDto taskDescriptionDto) throws AiServiceNotAvailableException;
+    TaskMatchResponse recommendAssignee(Integer groupId, TaskDescriptionDto taskDescriptionDto) throws AiServiceNotAvailableException;
 
 }

@@ -52,7 +52,7 @@ public class FindGroupServiceImpl implements FindGroupService {
         List<MatchGroupRequest.GroupItem> knownGroups =new ArrayList<MatchGroupRequest.GroupItem>();
         for(GroupListDto group: groupList){
             GroupDetailResponseDto groupDetail = groupMapper.getGroupDetail(group.getGroupId());
-            List<MatchGroupRequest.ResumeItem> members = membershipMapper.queryGroupMembers(group.getGroupId());
+            List<MatchGroupRequest.ResumeItem> members = membershipMapper.queryGroupResumes(group.getGroupId());
             knownGroups.add(
                     new MatchGroupRequest.GroupItem(
                             group.getGroupId(),

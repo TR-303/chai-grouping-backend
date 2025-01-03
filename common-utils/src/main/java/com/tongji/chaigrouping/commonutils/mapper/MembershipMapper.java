@@ -2,6 +2,7 @@ package com.tongji.chaigrouping.commonutils.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tongji.chaigrouping.aiservice.MatchGroupRequest;
+import com.tongji.chaigrouping.aiservice.TaskMatchRequest;
 import com.tongji.chaigrouping.commonutils.dto.GroupMemberDetailDto;
 import com.tongji.chaigrouping.commonutils.entity.Membership;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,7 +29,13 @@ public interface MembershipMapper extends BaseMapper<Membership> {
             "From membership m " +
             "JOIN user u ON m.user_id = u.user_id " +
             "JOIN `group` g ON m.group_id = g.group_id ")
-    List<MatchGroupRequest.ResumeItem> queryGroupMembers(Integer groupId);
+    List<MatchGroupRequest.ResumeItem> queryGroupResumes(Integer groupId);
+
+    @Select("SELECT u.user_id, u.skill_description " +
+            "From membership m " +
+            "JOIN user u ON m.user_id = u.user_id " +
+            "JOIN `group` g ON m.group_id = g.group_id ")
+    List<TaskMatchRequest.CandidateItem> queryTaskCandidates(Integer groupId);
 
     @Select("SELECT COUNT(*) FROM membership WHERE group_id = #{groupId} AND user_id = #{userId}")
     Boolean isMember(Integer groupId, Integer userId);

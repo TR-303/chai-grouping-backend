@@ -43,7 +43,7 @@ public class TasksController {
         }
     }
 
-    @GetMapping("/auto_assign/{group_id}")
+    @PostMapping("/auto_assign/{group_id}")
     public ResponseEntity<Object> autoAssignTask(@PathVariable("group_id") Integer groupId, @RequestBody TaskDescriptionDto taskDescriptionDto) {
         if (groupId == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "必须指定组id"));
