@@ -9,5 +9,11 @@ public interface NotificationListService {
 
     void readAllNotifications(Integer userId);
 
-    void sendNotification(Integer userId, String content);
+    void sendTextNotification(Integer userId, String title, String content);
+
+    void sendJoinRequestNotification(Integer userId, String title, String content, Integer joinRequestId);
+
+    void sendTaskNotification(Integer userId, String title, String content, Integer taskId);
+
+
 }

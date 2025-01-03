@@ -5,10 +5,7 @@ import com.tongji.chaigrouping.notificationservice.service.NotificationDetailSer
 import com.tongji.chaigrouping.notificationservice.service.NotificationListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -27,9 +24,15 @@ public class NotificationsController {
         return ResponseEntity.ok(notificationListService.getNotificationList(userId));
     }
 
-    @GetMapping("/read-all")
+    @PutMapping("/read-all")
     public ResponseEntity<Object> markAllAsRead(@RequestHeader("X-User-Id") Integer userId) {
         notificationListService.readAllNotifications(userId);
         return ResponseEntity.ok(Map.of("message", "所有消息被设置为已读，申请已拒绝"));
     }
+
+    @GetMapping("{notification_id}")
+    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, Integer notification_id) {
+        return ResponseEntity.ok(notificationDetailService.readNotification(notification_id));
+    }
+
 }
