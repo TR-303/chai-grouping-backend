@@ -1,6 +1,6 @@
 package com.tongji.chaigrouping.gateway.security;
 
-import com.tongji.chaigrouping.commonutils.utils.JwtTokenUtil;
+import com.tongji.chaigrouping.gateway.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
