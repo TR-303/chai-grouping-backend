@@ -139,4 +139,9 @@ public class GroupController {
                                               @RequestBody GroupFilterDto groupFilterDto) {
         return ResponseEntity.ok(findGroupService.filterGroup(userId,groupFilterDto));
     }
+
+    @PostMapping("/match")
+    public ResponseEntity<Object> matchGroup(@RequestHeader("X-User-id") Integer userId) {
+        return ResponseEntity.ok(findGroupService.findGroupByAI(userId));
+    }
 }

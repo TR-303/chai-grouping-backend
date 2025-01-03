@@ -2,11 +2,13 @@ package com.tongji.chaigrouping.aiservice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MatchGroupRequest {
     private ResumeItem applicator;
     private List<GroupItem> groups;
