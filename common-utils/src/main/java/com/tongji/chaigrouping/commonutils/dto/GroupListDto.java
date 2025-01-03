@@ -9,8 +9,8 @@ public class GroupListDto {
     Integer groupId;
     String name;
     String description;
-    Integer current_members;
+    Integer currentMembers;
     Integer volume;
-    Date created_at;
+    Date createdAt;
     Integer approvalRequired;
 }

@@ -134,12 +134,6 @@ public class GroupController {
         }
     }
 
-
-//    @GetMapping("/search/{keyword}")
-//    public ResponseEntity<Object> searchGroup(@RequestHeader("X-User-id") Integer userId,@PathVariable String keyword) {
-//        return ResponseEntity.ok(findGroupService.searchGroup(userId,keyword));
-//    }
-
     @PostMapping("/filter")
     public ResponseEntity<Object> filterGroup(@RequestHeader("X-User-id") Integer userId,
                                               @RequestBody GroupFilterDto groupFilterDto) {

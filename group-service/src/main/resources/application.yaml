@@ -12,6 +12,3 @@ spring:
     import:
       - nacos:groupservice-config.yaml?refreshEnabled=true&group=CHAI_GROUPING
       - nacos:consts.yaml?refreshEnabled=true&group=CHAI_GROUPING
-
-mybatis-plus:
-  mapper-locations: classpath:/common-utils/**/*.xml
