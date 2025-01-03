@@ -12,3 +12,6 @@ spring:
     import:
       - nacos:groupservice-config.yaml?refreshEnabled=true&group=CHAI_GROUPING
       - nacos:consts.yaml?refreshEnabled=true&group=CHAI_GROUPING
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
