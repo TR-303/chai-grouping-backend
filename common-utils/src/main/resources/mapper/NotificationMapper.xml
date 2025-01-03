@@ -37,7 +37,7 @@
             <result property="requesterId" column="user_id"/>
             <result property="groupId" column="group_id"/>
             <result property="description" column="description"/>
-            <result property="creationTime" column="creation_time"/>
+            <result property="creationTime" column="jr_creation_time"/>
             <result property="status" column="state"/>
         </association>
     </resultMap>
