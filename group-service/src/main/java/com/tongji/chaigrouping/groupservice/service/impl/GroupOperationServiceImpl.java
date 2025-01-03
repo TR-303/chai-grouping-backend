@@ -110,7 +110,7 @@ public class GroupOperationServiceImpl implements GroupOperationService {
         }
 
         // 验证当前用户是否为群组领导者
-        if (groupMapper.isLeader(groupId, userId)) {
+        if (!groupMapper.isLeader(groupId, userId)) {
             result.put("message", "您无权更新此群组。");
             return result;
         }
