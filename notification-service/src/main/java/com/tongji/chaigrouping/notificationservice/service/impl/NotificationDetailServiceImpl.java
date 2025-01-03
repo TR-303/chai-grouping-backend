@@ -15,9 +15,9 @@ public class NotificationDetailServiceImpl implements NotificationDetailService 
     @Override
     public NotificationDetailDto readNotification(Integer notificationId) {
         Notification notification = notificationMapper.selectById(notificationId);
-        notification.setHasRead(1);
+        if(notification.getJoinRequestId() == null)
+            notification.setHasRead(1);
         notificationMapper.updateById(notification);
         return notificationMapper.getNotificationDetailById(notificationId);
     }
-
 }
