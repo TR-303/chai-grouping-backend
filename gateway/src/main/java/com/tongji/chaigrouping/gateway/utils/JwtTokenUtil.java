@@ -1,4 +1,4 @@
-package com.tongji.chaigrouping.commonutils.utils;
+package com.tongji.chaigrouping.gateway.utils;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
