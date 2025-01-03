@@ -16,7 +16,6 @@ public class Notification {
     @TableId(type = AUTO)
     private Integer notificationId;
     private Integer userId;
-    private Integer taskId;
     private String title;
     private String content;
     private Integer joinRequestId;

@@ -3,7 +3,6 @@ package com.tongji.chaigrouping.userservice.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tongji.chaigrouping.userservice.utils.JwtTokenUtil;
 import com.tongji.chaigrouping.commonutils.dto.LoginResultDto;
-import com.tongji.chaigrouping.commonutils.utils.JwtTokenUtil;
 import com.tongji.chaigrouping.commonutils.entity.User;
 import com.tongji.chaigrouping.userservice.exception.InvalidLoginException;
 import com.tongji.chaigrouping.commonutils.mapper.UserMapper;

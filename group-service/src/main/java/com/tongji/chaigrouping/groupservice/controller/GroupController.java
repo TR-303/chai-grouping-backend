@@ -78,7 +78,7 @@ public class GroupController {
                                                  @PathVariable Integer group_id,@RequestBody CreateRequestDto request) {
         try {
             joinRequestService.createRequest(userId, group_id, request);
-            return ResponseEntity.ok("申请已发送。");
+            return ResponseEntity.ok(Map.of("message", "已发送加入请求。"));
         }
         catch (Exception e) {
             return ResponseEntity.status(403).body(e.getMessage());
@@ -91,7 +91,7 @@ public class GroupController {
                                                      @RequestBody RespondToRequestDto response) {
         try {
             joinRequestService.respondToRequest(userId, join_request_id, response);
-            return ResponseEntity.ok("已处理请求。");
+            return ResponseEntity.ok(Map.of("message", "已处理请求。"));
         }
         catch (Exception e) {
             return ResponseEntity.status(403).body(e.getMessage());
@@ -103,7 +103,7 @@ public class GroupController {
                                              @PathVariable Integer group_id) {
         try {
             groupMemberService.quitGroup(userId, group_id);
-            return ResponseEntity.ok("已退出群组。");
+            return ResponseEntity.ok(Map.of("message", "已退出小组。"));
         } catch (Exception e) {
             return ResponseEntity.status(403).body(e.getMessage());
         }
@@ -115,7 +115,7 @@ public class GroupController {
                                                @PathVariable Integer user_id) {
         try {
             groupMemberService.kickMember(userId, group_id, user_id);
-            return ResponseEntity.ok("已移除成员。");
+            return ResponseEntity.ok( Map.of("message", "已移除成员。"));
         } catch (Exception e) {
             return ResponseEntity.status(403).body(e.getMessage());
         }
@@ -128,7 +128,7 @@ public class GroupController {
         try {
             groupMemberService.transferLeader(userId, group_id, new_leader.getNewLeaderId());
             groupMemberService.quitGroup(userId, group_id);
-            return ResponseEntity.ok("已移交群组领导权，并退出小组。");
+            return ResponseEntity.ok(Map.of("message", "已转让组长并退出群组。"));
         } catch (Exception e) {
             return ResponseEntity.status(403).body(e.getMessage());
         }

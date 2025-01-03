@@ -1,5 +1,6 @@
 package com.tongji.chaigrouping.notificationservice.service.impl;
 
+import com.tongji.chaigrouping.commonutils.dto.CreateNotificationDto;
 import com.tongji.chaigrouping.commonutils.dto.NotificationListItemDto;
 import com.tongji.chaigrouping.commonutils.entity.JoinRequest;
 import com.tongji.chaigrouping.commonutils.entity.Notification;
@@ -50,34 +51,15 @@ public class NotificationListServiceImpl implements NotificationListService {
     * 3. 成功入队的人   Request通过
     * 4. 申请被拒绝的人  Request被拒绝
     * 5. 所有组员+组长  组解散
+    * 6. 任务负责人     任务 更改
     *
     * */
     @Override
-    public void sendTextNotification(Integer receiverId, String title, String content) {
-        Notification notification = new Notification(null,receiverId,null, title, content,null,0,new Date());
+    public void sendNotification(Integer receiverId, CreateNotificationDto createNotificationDto) {
+        Notification notification = new Notification(null, receiverId, createNotificationDto.getTitle(),
+                createNotificationDto.getContent(), createNotificationDto.getJoinRequestId(), 0, new Date());
         notificationMapper.insert(notification);
     }
 
-
-    /*
-     *   receiver     situation
-     * 1. 组长         有人发送入队请求。
-     * */
-    @Override
-    public void sendJoinRequestNotification(Integer userId, String title, String content, Integer joinRequestId) {
-        Notification notification = new Notification(null,userId,null, title, content,joinRequestId,0,new Date());
-        notificationMapper.insert(notification);
-    }
-
-
-    /*
-     *   receiver     situation
-     * 1. 任务负责人    任务更改。
-     * */
-    @Override
-    public void sendTaskNotification(Integer userId, String title, String content, Integer taskId) {
-        Notification notification = new Notification(null,userId,taskId, title, content,null,0,new Date());
-        notificationMapper.insert(notification);
-    }
 
 }

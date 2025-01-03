@@ -1,5 +1,6 @@
 package com.tongji.chaigrouping.notificationservice.controller;
 
+import com.tongji.chaigrouping.commonutils.dto.CreateNotificationDto;
 import com.tongji.chaigrouping.commonutils.dto.NotificationListItemDto;
 import com.tongji.chaigrouping.notificationservice.service.NotificationDetailService;
 import com.tongji.chaigrouping.notificationservice.service.NotificationListService;
@@ -31,8 +32,13 @@ public class NotificationsController {
     }
 
     @GetMapping("{notification_id}")
-    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, Integer notification_id) {
-        return ResponseEntity.ok(notificationDetailService.readNotification(notification_id));
+    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, Integer notificationId) {
+        return ResponseEntity.ok(notificationDetailService.readNotification(notificationId));
+    }
+
+    @PostMapping("/send/{receiver_id}")
+    public void sendNotification(@PathVariable("receiver_id") Integer receiverId, @RequestBody CreateNotificationDto createNotificationDto) {
+        notificationListService.sendNotification(receiverId, createNotificationDto);
     }
 
 }

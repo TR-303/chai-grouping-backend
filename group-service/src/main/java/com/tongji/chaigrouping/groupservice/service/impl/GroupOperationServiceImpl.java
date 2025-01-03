@@ -30,29 +30,14 @@ public class GroupOperationServiceImpl implements GroupOperationService {
     }
 
     @Override
-    /*
-      获取群组详细信息，包括成员列表
-
-      @param memberId 当前请求的用户 ID（可用于权限检查）
-     * @param groupId 目标群组 ID
-     * @return GroupDetailResponseDto 包含群组详情和成员列表
-     */
     public GroupDetailResponseDto groupDetail(Integer memberId, Integer groupId) throws AccessDeniedException {
-        // 获取群组详细信息
         GroupDetailResponseDto groupDetail = groupMapper.getGroupDetail(groupId);
         if (groupDetail == null) {
-            // 处理群组不存在的情况
             throw new AccessDeniedException("群组已解散或不存在");
         }
-
         // 获取群组成员列表
         List<GroupMemberBriefDto> members = groupMapper.getGroupMembers(groupId);
         groupDetail.setMembers(members);
-
-
-        // 可选：根据 memberId 进行权限检查或自定义返回内容
-        // 例如，检查当前用户是否为群组成员或群组领导
-        // 这里可以添加相应的逻辑
 
         return groupDetail;
     }
