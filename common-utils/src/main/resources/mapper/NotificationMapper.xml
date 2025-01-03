@@ -62,12 +62,22 @@
         WHERE n.notification_id = #{notificationId}
     </select>
 
-    <select id="getJoinRequestByUserId" parameterType="int" resultType="com.tongji.chaigrouping.commonutils.entity.JoinRequest">
+
+    <resultMap id="JoinRequestResultMap" type="com.tongji.chaigrouping.commonutils.entity.JoinRequest">
+        <id property="joinRequestId" column="join_request_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="creationTime" column="creation_time"/>
+        <result property="description" column="description"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+    <select id="getJoinRequestByReceiverId" parameterType="int" resultMap="JoinRequestResultMap">
         SELECT jr.join_request_id,
                jr.user_id,
                jr.group_id,
-               jr.description,
                jr.creation_time,
+               jr.description,
                jr.state
         FROM join_request jr
                  LEFT JOIN notification n ON jr.join_request_id = n.join_request_id

@@ -35,7 +35,7 @@ public class NotificationListServiceImpl implements NotificationListService {
     public void readAllNotifications(Integer userId) {
         List<JoinRequest> joinRequests = notificationMapper.getJoinRequestByReceiverId(userId);
         for (JoinRequest joinRequest : joinRequests) {
-            // 如果是等待状态的加入请求，且userId仍然还是队长，直接拒绝
+            // 如果是等待状态的加入请求，且userId是队长，直接拒绝
             if (joinRequest.getState().equals("PENDING") && groupMapper.isLeader(joinRequest.getGroupId(), userId)) {
                 joinRequest.setState("REJECTED");
                 joinRequestMapper.updateById(joinRequest);
