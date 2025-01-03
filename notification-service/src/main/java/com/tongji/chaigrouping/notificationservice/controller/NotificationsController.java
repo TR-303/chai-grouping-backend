@@ -32,7 +32,7 @@ public class NotificationsController {
     }
 
     @GetMapping("{notification_id}")
-    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, Integer notificationId) {
+    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, @PathVariable Integer notificationId) {
         return ResponseEntity.ok(notificationDetailService.readNotification(notificationId));
     }
 
