@@ -84,10 +84,12 @@ public class JoinRequestServiceImpl implements JoinRequestService {
             boolean canAdd = memberCnt < volume;
             if (!canAdd)
                 throw new RuntimeException("组已满，无法加入！");
-            joinRequestMapper.selectById(requestId).setState("APPROVE");
+            request.setState("APPROVED");
+            joinRequestMapper.updateById(request);
             membershipMapper.insert(new Membership(groupId, request.getUserId(), new Date()));
         } else if (reject) {
-            joinRequestMapper.selectById(requestId).setState("REJECT");
+            request.setState("REJECTED");
+            joinRequestMapper.updateById(request);
         } else {
             throw new RuntimeException("Unknown action");
         }
