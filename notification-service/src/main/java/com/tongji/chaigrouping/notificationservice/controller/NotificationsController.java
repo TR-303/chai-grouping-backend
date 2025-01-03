@@ -31,8 +31,8 @@ public class NotificationsController {
         return ResponseEntity.ok(Map.of("message", "所有消息被设置为已读，申请已拒绝"));
     }
 
-    @GetMapping("{notification_id}")
-    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, @PathVariable Integer notificationId) {
+    @GetMapping("/{notification_id}")
+    public ResponseEntity<Object> getNotificationDetail(@RequestHeader("X-User-Id") Integer userId, @PathVariable("notification_id") Integer notificationId) {
         return ResponseEntity.ok(notificationDetailService.readNotification(notificationId));
     }
 
