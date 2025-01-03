@@ -28,7 +28,17 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         if(!membershipMapper.isMember(groupId, userId)){
             throw new AccessDeniedException("You are not a member of this group");
         }
-        return membershipMapper.queryGroupMember( groupId,  memberId);
+        GroupMemberDetailDto result = membershipMapper.queryGroupMember(groupId, memberId);
+        if(result == null){
+            throw new AccessDeniedException("The member is not in this group");
+        }
+        if(groupMapper.isLeader(groupId, memberId)){
+            result.setRole("leader");
+        }
+        else{
+            result.setRole("member");
+        }
+        return result;
     }
 
     @Override

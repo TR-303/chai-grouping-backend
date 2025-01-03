@@ -14,11 +14,11 @@ public interface MembershipMapper extends BaseMapper<Membership> {
      * @return 群组成员的详细信息列表
      */
     @Select("SELECT u.user_id AS userId, u.username, " +
-            "IF(m.role = 1, 'leader', 'member') AS role, " +
             "m.join_date AS joinDate, u.school, u.grade, u.skill_description AS skillDescription " +
             "FROM membership m " +
-            "JOIN users u ON m.user_id = u.user_id " +
-            "WHERE m.group_id = #{groupId} and u.id = #{memberId}")
+            "JOIN user u ON m.user_id = u.user_id " +
+            "JOIN `group` g ON m.group_id = g.group_id " +
+            "WHERE m.group_id = #{groupId} and u.user_id = #{memberId}")
     GroupMemberDetailDto queryGroupMember(Integer groupId, Integer memberId);
 
     @Select("SELECT COUNT(*) FROM membership WHERE group_id = #{groupId} AND user_id = #{userId}")
