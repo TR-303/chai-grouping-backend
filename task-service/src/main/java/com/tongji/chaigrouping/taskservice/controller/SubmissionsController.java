@@ -22,7 +22,7 @@ public class SubmissionsController {
     }
 
     @PostMapping(value = "/{submission_id}/update", consumes = "multipart/form-data")
-    public ResponseEntity<Object> updateTaskSubmission(@PathVariable("submission_id") Integer submissionId, @RequestBody SubmissionCreationDto submissionCreationDto) {
+    public ResponseEntity<Object> updateTaskSubmission(@PathVariable("submission_id") Integer submissionId, @ModelAttribute SubmissionCreationDto submissionCreationDto) {
         taskSubmissionService.updateTaskSubmission(submissionId, submissionCreationDto.getText(), submissionCreationDto.getFile());
         return ResponseEntity.ok(Map.of("message", "Task submission updated successfully"));
     }

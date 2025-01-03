@@ -9,6 +9,7 @@ import java.util.List;
 public class TaskDetailDto {
     private Integer taskId;
     private Integer groupId;
+    private String groupName;
     private Integer userId;
     private String username;
     private String title;

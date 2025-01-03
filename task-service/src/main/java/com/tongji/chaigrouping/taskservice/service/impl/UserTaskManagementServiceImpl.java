@@ -17,7 +17,6 @@ public class UserTaskManagementServiceImpl implements UserTaskManagementService 
 
     @Override
     public List<TaskListItemDto> getUserTaskList(Integer userId) {
-        List<Task> tasks = taskMapper.selectListByUserId(userId);
-        return tasks.stream().map(Task::toTaskListItemDto).collect(Collectors.toList());
+        return taskMapper.getUserTaskList(userId);
     }
 }

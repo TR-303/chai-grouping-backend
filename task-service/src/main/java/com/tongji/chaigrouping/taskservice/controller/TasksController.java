@@ -71,8 +71,8 @@ public class TasksController {
         return ResponseEntity.ok(groupTaskManagementService.getTaskDetail(taskId));
     }
 
-    @GetMapping("/user/{user_id}")
-    public ResponseEntity<List<TaskListItemDto>> getUserTaskList(@PathVariable("user_id") Integer userId) {
+    @GetMapping("/user")
+    public ResponseEntity<List<TaskListItemDto>> getUserTaskList(@RequestHeader("X-User-id") Integer userId) {
         return ResponseEntity.ok(userTaskManagementService.getUserTaskList(userId));
     }
 

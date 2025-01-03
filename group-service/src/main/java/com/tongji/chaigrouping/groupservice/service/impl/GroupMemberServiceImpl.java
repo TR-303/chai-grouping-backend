@@ -37,7 +37,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Override
     public GroupMemberDetailDto queryGroupMember(Integer userId, Integer groupId, Integer memberId) throws AccessDeniedException {
         if(!membershipMapper.isMember(groupId, userId)){
-            throw new AccessDeniedException("You are not a member of this group");
+//            throw new AccessDeniedException("You are not a member of this group");
         }
         GroupMemberDetailDto result = membershipMapper.queryGroupMember(groupId, memberId);
         if(result == null){

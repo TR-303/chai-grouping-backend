@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GroupTaskManagementServiceImpl implements GroupTaskManagementService {
@@ -18,26 +17,18 @@ public class GroupTaskManagementServiceImpl implements GroupTaskManagementServic
 
     @Override
     public List<TaskListItemDto> getTaskList(Integer groupId) {
-        List<Task> tasks = taskMapper.selectListByGroupId(groupId);
-        return tasks.stream().map(Task::toTaskListItemDto).collect(Collectors.toList());
+        return taskMapper.getGroupTaskList(groupId);
     }
 
     @Override
     public void reassignTask(Integer taskId, Integer assigneeId) {
-        Task task = taskMapper.selectDetailById(taskId);
-        if (task == null) {
-            throw new RuntimeException("任务不存在");
-        }
+        Task task = taskMapper.selectById(taskId);
         task.reassign(assigneeId);
         taskMapper.updateById(task);
     }
 
     @Override
     public TaskDetailDto getTaskDetail(Integer taskId) {
-        Task task = taskMapper.selectDetailById(taskId);
-        if (task == null) {
-            throw new RuntimeException("任务不存在");
-        }
-        return task.toTaskInfoDto();
+        return taskMapper.getTaskDetailById(taskId);
     }
 }
