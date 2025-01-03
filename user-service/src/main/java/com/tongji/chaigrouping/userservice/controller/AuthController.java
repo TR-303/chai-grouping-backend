@@ -33,10 +33,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDto loginDto) {
         try {
-            Map<String,String> response = new HashMap<>();
-            response.put("message", "Login successfully");
-            response.put("token", authService.login(loginDto.getUsername(), loginDto.getPassword()));
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(authService.login(loginDto.getUsername(), loginDto.getPassword()));
         } catch (InvalidLoginException e) {
             return ResponseEntity.status(401).body(Map.of("message", e.getMessage()));
         }

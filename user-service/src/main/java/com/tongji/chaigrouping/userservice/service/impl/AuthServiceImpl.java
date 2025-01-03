@@ -1,6 +1,7 @@
 package com.tongji.chaigrouping.userservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tongji.chaigrouping.commonutils.dto.LoginResultDto;
 import com.tongji.chaigrouping.commonutils.utils.JwtTokenUtil;
 import com.tongji.chaigrouping.commonutils.entity.User;
 import com.tongji.chaigrouping.userservice.exception.InvalidLoginException;
@@ -33,11 +34,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public LoginResultDto login(String username, String password) {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             throw new InvalidLoginException("Invalid username or password");
         }
-        return jwtTokenUtil.generateToken(user.getUserId());
+        return new LoginResultDto("登录成功",user.getUserId(),jwtTokenUtil.generateToken(user.getUserId()));
     }
 }
