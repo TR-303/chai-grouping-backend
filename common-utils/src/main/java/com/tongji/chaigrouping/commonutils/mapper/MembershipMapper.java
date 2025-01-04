@@ -34,7 +34,8 @@ public interface MembershipMapper extends BaseMapper<Membership> {
     @Select("SELECT u.user_id, u.skill_description " +
             "From membership m " +
             "JOIN user u ON m.user_id = u.user_id " +
-            "JOIN `group` g ON m.group_id = g.group_id ")
+            "JOIN `group` g ON m.group_id = g.group_id "+
+            "WHERE m.group_id = #{groupId}")
     List<TaskMatchRequest.CandidateItem> queryTaskCandidates(Integer groupId);
 
     @Select("SELECT COUNT(*) FROM membership WHERE group_id = #{groupId} AND user_id = #{userId}")

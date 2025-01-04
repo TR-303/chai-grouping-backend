@@ -15,4 +15,5 @@ public class TaskListItemDto {
     private Integer submissionCnt;
     private Integer groupId;
     private String groupName;
+    private String description;
 }

@@ -84,6 +84,7 @@
                t.user_id,
                t.group_id,
                t.title,
+               t.description,
                t.deadline,
                t.state,
                g.name,
