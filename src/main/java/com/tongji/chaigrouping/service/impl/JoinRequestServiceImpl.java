@@ -30,7 +30,7 @@ public class JoinRequestServiceImpl implements JoinRequestService {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    NotificationServiceClient notificationServiceClient;
+    NotificationListServiceImpl notificationListServiceImpl;
 
     @Override
     @Transactional
@@ -49,7 +49,7 @@ public class JoinRequestServiceImpl implements JoinRequestService {
             JoinRequest joinRequest = new JoinRequest(null, userId, groupId, new Date(), requestDto.getDescription(), "PENDING");
             joinRequestMapper.insert(joinRequest);
             Integer requestId = joinRequest.getJoinRequestId();
-            notificationServiceClient.sendNotification(leaderId, new CreateNotificationDto(
+            notificationListServiceImpl.sendNotification(leaderId, new CreateNotificationDto(
                     "有新的加入请求",
                     "用户 " + username + " 请求加入您的小组 " + groupName,
                     requestId
@@ -61,7 +61,7 @@ public class JoinRequestServiceImpl implements JoinRequestService {
             if (!canAdd)
                 throw new RuntimeException("组已满，无法加入！");
             membershipMapper.insert(new Membership(groupId, userId, new Date()));
-            notificationServiceClient.sendNotification(leaderId, new CreateNotificationDto(
+            notificationListServiceImpl.sendNotification(leaderId, new CreateNotificationDto(
                     "新组员加入组",
                     "用户 " + username + " 加入您的组 " + groupName,
                     null

@@ -1,25 +1,24 @@
 package com.tongji.chaigrouping.security;
 
-import com.tongji.chaigrouping.gateway.utils.JwtTokenUtil;
+import com.tongji.chaigrouping.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Component
-public class JwtAuthenticationFilter implements WebFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -30,27 +29,32 @@ public class JwtAuthenticationFilter implements WebFilter {
     private final Logger logger = Logger.getLogger(JwtAuthenticationFilter.class.getName());
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String requestURI = exchange.getRequest().getPath().value();
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-        if (allowedRoutes.stream().anyMatch(route -> pathMatcher.match(route, requestURI))) {
-            return chain.filter(exchange);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String requestURI = request.getRequestURI();
+        for (String route : allowedRoutes) {
+            if (new AntPathRequestMatcher(route).matches(request)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
 
-        String token = exchange.getRequest().getHeaders().getFirst("Authorization");
+        String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
             try {
                 int userId = jwtTokenUtil.tryParseToken(token);
-                exchange.getRequest().mutate().header("X-User-id", String.valueOf(userId)).build();
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
-                SecurityContext context = new SecurityContextImpl(authentication);
-                return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withSecurityContext(Mono.just(context)));
+                // request.setAttribute("X-User-id", userId); // 可选：如需传递
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userId, null, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+                return;
             } catch (Exception e) {
                 logger.warning("Invalid token: " + e.getMessage());
             }
         }
-        exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(401));
-        return exchange.getResponse().setComplete();
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Unauthorized");
     }
 }

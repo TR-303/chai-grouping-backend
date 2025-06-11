@@ -1,12 +1,12 @@
 package com.tongji.chaigrouping.service.impl;
 
-import com.tongji.chaigrouping.commonutils.dto.GroupDetailResponseDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupFilterDto;
-import com.tongji.chaigrouping.commonutils.dto.GroupListDto;
-import com.tongji.chaigrouping.commonutils.entity.User;
-import com.tongji.chaigrouping.commonutils.mapper.GroupMapper;
-import com.tongji.chaigrouping.commonutils.mapper.MembershipMapper;
-import com.tongji.chaigrouping.commonutils.mapper.UserMapper;
+import com.tongji.chaigrouping.dto.GroupDetailResponseDto;
+import com.tongji.chaigrouping.dto.GroupFilterDto;
+import com.tongji.chaigrouping.dto.GroupListDto;
+import com.tongji.chaigrouping.entity.User;
+import com.tongji.chaigrouping.mapper.GroupMapper;
+import com.tongji.chaigrouping.mapper.MembershipMapper;
+import com.tongji.chaigrouping.mapper.UserMapper;
 import com.tongji.chaigrouping.aiservice.MatchGroupRequest;
 import com.tongji.chaigrouping.aiservice.MatchGroupResponseItem;
 import com.tongji.chaigrouping.aiservice.MoonshotAiUtils;

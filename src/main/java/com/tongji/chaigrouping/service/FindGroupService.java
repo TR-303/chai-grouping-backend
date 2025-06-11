@@ -1,6 +1,6 @@
 package com.tongji.chaigrouping.service;
 
-import com.tongji.chaigrouping.dto.MatchGroupResponseItem;
+import com.tongji.chaigrouping.aiservice.MatchGroupResponseItem;
 import com.tongji.chaigrouping.dto.GroupFilterDto;
 import com.tongji.chaigrouping.dto.GroupListDto;
 

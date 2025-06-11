@@ -1,0 +1,6 @@
+allowed-routes:
+  - /api/**
+
+jwt:
+  secret: wohenshenmiwohenshenmi114514chaigroupingwohenshenmiwohenshenmi1919810
+  expiration: 3600

@@ -1,7 +1,6 @@
 package com.tongji.chaigrouping.mapper;
 import com.tongji.chaigrouping.dto.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tongji.chaigrouping.commonutils.dto.*;
 import com.tongji.chaigrouping.entity.Group;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

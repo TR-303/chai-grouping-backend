@@ -8,6 +8,7 @@ import com.tongji.chaigrouping.dto.CreateNotificationDto;
 import com.tongji.chaigrouping.entity.Group;
 import com.tongji.chaigrouping.entity.JoinRequest;
 import com.tongji.chaigrouping.entity.Membership;
+import com.tongji.chaigrouping.exception.AccessDeniedException;
 import com.tongji.chaigrouping.mapper.GroupMapper;
 import com.tongji.chaigrouping.mapper.JoinRequestMapper;
 import com.tongji.chaigrouping.mapper.MembershipMapper;
@@ -16,7 +17,6 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.nio.file.AccessDeniedException;
 
 @Service
 public class GroupOperationServiceImpl implements GroupOperationService {
@@ -28,7 +28,7 @@ public class GroupOperationServiceImpl implements GroupOperationService {
     @Autowired
     JoinRequestMapper joinRequestMapper;
     @Autowired
-    NotificationServiceClient notificationServiceClient;
+    NotificationListServiceImpl notificationListServiceImpl;
 
     @Override
     public List<UserGroupListDto> groupList(Integer userId) {
@@ -144,7 +144,7 @@ public class GroupOperationServiceImpl implements GroupOperationService {
         for(JoinRequest request : requests){
             if(request.getState().equals("PENDING")) {
                 request.setState("REJECT");
-                notificationServiceClient.sendNotification(request.getUserId(), new CreateNotificationDto(
+                notificationListServiceImpl.sendNotification(request.getUserId(), new CreateNotificationDto(
                         "您发送的加入请求失效",
                         "您想要加入的目标小组" + groupMapper.selectById(groupId).getName() + "已经解散。",
                         null));
@@ -163,7 +163,7 @@ public class GroupOperationServiceImpl implements GroupOperationService {
     private void sendNotificationToAllGroupMembers(Integer groupId, CreateNotificationDto notification){
         List<GroupMemberBriefDto> members = groupMapper.getGroupMembers(groupId);
         for(GroupMemberBriefDto member :members){
-            notificationServiceClient.sendNotification(member.getUserId(), notification);
+            notificationListServiceImpl.sendNotification(member.getUserId(), notification);
         }
     }
 }

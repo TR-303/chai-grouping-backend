@@ -1,11 +1,11 @@
 package com.tongji.chaigrouping.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tongji.chaigrouping.commonutils.utils.JwtTokenUtil;
-import com.tongji.chaigrouping.commonutils.dto.LoginResultDto;
-import com.tongji.chaigrouping.commonutils.entity.User;
-import com.tongji.chaigrouping.commonutils.exception.InvalidLoginException;
-import com.tongji.chaigrouping.commonutils.mapper.UserMapper;
+import com.tongji.chaigrouping.utils.JwtTokenUtil;
+import com.tongji.chaigrouping.dto.LoginResultDto;
+import com.tongji.chaigrouping.entity.User;
+import com.tongji.chaigrouping.exception.InvalidLoginException;
+import com.tongji.chaigrouping.mapper.UserMapper;
 import com.tongji.chaigrouping.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

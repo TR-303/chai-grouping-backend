@@ -26,7 +26,7 @@ public class TaskCreationServiceImpl implements TaskCreationService {
     @Autowired
     private MoonshotAiUtils moonshotAiUtils;
     @Autowired
-    private NotificationServiceClient notificationServiceClient;
+    private NotificationListServiceImpl notificationListServiceImpl;
     @Autowired
     private GroupMapper groupMapper;
 
@@ -43,7 +43,7 @@ public class TaskCreationServiceImpl implements TaskCreationService {
                     "您被分配了一个新任务：" + task.getDescription()+ "，请进入小组 "+groupName+" 查看详情。",
                     null
             );
-            notificationServiceClient.sendNotification(assigneeId, createNotificationDto);
+            notificationListServiceImpl.sendNotification(assigneeId, createNotificationDto);
         }
         return task.getTaskId();
     }

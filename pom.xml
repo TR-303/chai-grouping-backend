@@ -4,23 +4,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.4.3</version>
     </parent>
     <groupId>com.tongji.chaigrouping</groupId>
     <artifactId>chai-grouping</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>chai-grouping</name>
     <description>chai-grouping</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <jjwt.version>0.12.6</jjwt.version>
     </properties>
-
-    <modules>
-        <!--        <module>aiservice</module>-->
-    </modules>
 
     <dependencies>
         <!-- Spring Boot Web Starter -->
@@ -90,14 +85,17 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- HuTool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.26</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
