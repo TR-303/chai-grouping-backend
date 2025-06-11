@@ -1,6 +1,12 @@
-allowed-routes:
-  - /api/**
+allowed-routes: /swagger-ui/**,/v3/api-docs/**
 
 jwt:
   secret: wohenshenmiwohenshenmi114514chaigroupingwohenshenmiwohenshenmi1919810
   expiration: 3600
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/chai_grouping?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234

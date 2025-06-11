@@ -14,10 +14,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 public class SecurityConfiguration {
+    @Value("${allowed-routes:}")
+    private String[] allowedRoutes;
+
     @Bean
-    public List<String> allowedRoutes(@Value("allowed-routes") String[] allowedRoutes) {
+    public List<String> allowedRoutes() {
         return List.of(allowedRoutes);
     }
+
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {

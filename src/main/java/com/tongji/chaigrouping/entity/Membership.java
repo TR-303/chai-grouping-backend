@@ -1,12 +1,9 @@
 package com.tongji.chaigrouping.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-
-import static com.baomidou.mybatisplus.annotation.IdType.AUTO;
 
 @Data
 @AllArgsConstructor
