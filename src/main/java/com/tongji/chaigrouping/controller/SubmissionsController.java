@@ -2,6 +2,7 @@ package com.tongji.chaigrouping.controller;
 
 import com.tongji.chaigrouping.dto.SubmissionCreationDto;
 import com.tongji.chaigrouping.service.TaskSubmissionService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ public class SubmissionsController {
     private TaskSubmissionService taskSubmissionService;
 
     @PostMapping(value = "/submit/{task_id}", consumes = "multipart/form-data")
-    public ResponseEntity<Object> submitTask(@RequestHeader("X-User-id") Integer userId, @PathVariable("task_id") Integer taskId, @ModelAttribute SubmissionCreationDto submissionCreationDto) {
+    public ResponseEntity<Object> submitTask(HttpServletRequest request, @PathVariable("task_id") Integer taskId, @ModelAttribute SubmissionCreationDto submissionCreationDto) {
+        Integer userId = (Integer) request.getAttribute("X-User-id");
         taskSubmissionService.submitTask(userId, taskId, submissionCreationDto.getText(), submissionCreationDto.getFile());
         return ResponseEntity.ok(Map.of("message", "Task submitted successfully"));
     }

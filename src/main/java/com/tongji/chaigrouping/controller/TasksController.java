@@ -8,6 +8,7 @@ import com.tongji.chaigrouping.exception.AiServiceNotAvailableException;
 import com.tongji.chaigrouping.service.GroupTaskManagementService;
 import com.tongji.chaigrouping.service.TaskCreationService;
 import com.tongji.chaigrouping.service.UserTaskManagementService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +73,8 @@ public class TasksController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<TaskListItemDto>> getUserTaskList(@RequestHeader("X-User-id") Integer userId) {
+    public ResponseEntity<List<TaskListItemDto>> getUserTaskList(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("X-User-id");
         return ResponseEntity.ok(userTaskManagementService.getUserTaskList(userId));
     }
 

@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = token.substring(7);
             try {
                 int userId = jwtTokenUtil.tryParseToken(token);
-                // request.setAttribute("X-User-id", userId); // 可选：如需传递
+                request.setAttribute("X-User-id", userId); // 可选：如需传递
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userId, null, null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
