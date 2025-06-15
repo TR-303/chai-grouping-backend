@@ -4,6 +4,8 @@ import com.tongji.chaigrouping.dto.LoginDto;
 import com.tongji.chaigrouping.exception.InvalidLoginException;
 import com.tongji.chaigrouping.exception.InvalidRegisterException;
 import com.tongji.chaigrouping.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Operation(summary = "用户注册", security = @SecurityRequirement(name = "none"))
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody LoginDto loginDto) {
         try {
@@ -29,6 +32,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "用户登录", security = @SecurityRequirement(name = "none"))
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDto loginDto) {
         try {
