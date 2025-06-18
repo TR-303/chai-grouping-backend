@@ -30,7 +30,7 @@ public interface GroupMapper extends BaseMapper<Group> {
     List<UserGroupListDto> getGroupList(@Param("userId") Integer userId);
 
     @Select("""
-        SELECT 
+        SELECT
             g.group_id AS groupId,
             g.name,
             g.description,
