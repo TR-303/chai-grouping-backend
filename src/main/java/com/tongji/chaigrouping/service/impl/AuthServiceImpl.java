@@ -27,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
         if (userMapper.exists(new QueryWrapper<User>().eq("username", username))) {
             throw new InvalidLoginException("Username already exists");
         }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));

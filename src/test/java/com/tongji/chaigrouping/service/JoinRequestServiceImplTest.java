@@ -121,8 +121,8 @@ public class JoinRequestServiceImplTest {
         when(userMapper.selectById(2)).thenReturn(u);
         CreateRequestDto dto = new CreateRequestDto();
         assertThrows(RuntimeException.class, () -> service.createRequest(2,1,dto));
-        verify(membershipMapper, never()).insert(any());
-        verify(joinRequestMapper, never()).insert(any());
+        verify(membershipMapper, never()).insert((Membership) any());
+        verify(joinRequestMapper, never()).insert((JoinRequest) any());
     }
 
     @Test
@@ -178,6 +178,6 @@ public class JoinRequestServiceImplTest {
         dto.setAction("REJECT");
         service.respondToRequest(10,1,dto);
         verify(joinRequestMapper).updateById(jr);
-        verify(membershipMapper, never()).insert(any());
+        verify(membershipMapper, never()).insert((Membership) any());
     }
 }
