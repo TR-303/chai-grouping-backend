@@ -58,7 +58,20 @@ public class GroupOperationServiceImpl implements GroupOperationService {
     @Override
     @Transactional
     public Map<String, Object> createGroup(Integer userId, GroupInfoDto groupInfoDto) {
+
+
         Map<String, Object> result = new HashMap<>();
+
+        // 参数校验
+        if (groupInfoDto.getName() == null || groupInfoDto.getName().trim().isEmpty()
+                || groupInfoDto.getDescription() == null
+                || groupInfoDto.getVolume() == null || groupInfoDto.getVolume() <= 0
+                || groupInfoDto.getVisibility() == null || (groupInfoDto.getVisibility() != 0 && groupInfoDto.getVisibility() != 1)
+                || groupInfoDto.getApprovalRequired() == null || (groupInfoDto.getApprovalRequired() != 0 && groupInfoDto.getApprovalRequired() != 1)) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST, "参数不合法"
+            );
+        }
 
         // 创建 Group 实体并设置属性
         Group group = new Group();
