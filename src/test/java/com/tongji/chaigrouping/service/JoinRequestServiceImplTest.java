@@ -7,6 +7,7 @@ import com.tongji.chaigrouping.entity.Group;
 import com.tongji.chaigrouping.entity.JoinRequest;
 import com.tongji.chaigrouping.entity.Membership;
 import com.tongji.chaigrouping.mapper.*;
+import com.tongji.chaigrouping.service.impl.GroupMemberServiceImpl;
 import com.tongji.chaigrouping.service.impl.JoinRequestServiceImpl;
 import com.tongji.chaigrouping.service.impl.NotificationListServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,7 @@ public class JoinRequestServiceImplTest {
     private NotificationListServiceImpl notificationService;
     private NotificationMapper notificationMapper;
     private JoinRequestServiceImpl service;
+    private GroupMemberServiceImpl groupMemberServiceImpl;
 
     @BeforeEach
     void setUp() {
@@ -36,6 +38,7 @@ public class JoinRequestServiceImplTest {
         userMapper = mock(UserMapper.class);
         notificationService = mock(NotificationListServiceImpl.class);
         notificationMapper = mock(NotificationMapper.class);
+        groupMemberServiceImpl = mock(GroupMemberServiceImpl.class);
         service = new JoinRequestServiceImpl();
         ReflectionTestUtils.setField(service, "joinRequestMapper", joinRequestMapper);
         ReflectionTestUtils.setField(service, "membershipMapper", membershipMapper);
@@ -43,6 +46,7 @@ public class JoinRequestServiceImplTest {
         ReflectionTestUtils.setField(service, "userMapper", userMapper);
         ReflectionTestUtils.setField(service, "notificationListServiceImpl", notificationService);
         ReflectionTestUtils.setField(service, "notificationMapper", notificationMapper);
+        ReflectionTestUtils.setField(service, "groupMemberServiceImpl", groupMemberServiceImpl);
     }
 
     @Test
@@ -52,6 +56,7 @@ public class JoinRequestServiceImplTest {
         g.setLeaderId(10);
         g.setName("group");
         g.setVolume(3);
+        g.setDisbanded(0);
         when(groupMapper.selectById(1)).thenReturn(g);
         when(groupMapper.getMemberCount(1)).thenReturn(2);
         when(userMapper.selectById(2)).thenReturn(new com.tongji.chaigrouping.entity.User());
@@ -70,7 +75,7 @@ public class JoinRequestServiceImplTest {
         when(groupMapper.selectById(1)).thenReturn(null);
         when(userMapper.selectById(2)).thenReturn(new com.tongji.chaigrouping.entity.User());
         CreateRequestDto dto = new CreateRequestDto();
-        assertThrows(NullPointerException.class, () -> service.createRequest(2,1,dto));
+        assertThrows(RuntimeException.class, () -> service.createRequest(2,1,dto));
     }
 
     @Test
@@ -93,6 +98,7 @@ public class JoinRequestServiceImplTest {
         g.setApprovalRequired(1);
         g.setLeaderId(10);
         g.setName("group");
+        g.setDisbanded(0);
         when(groupMapper.selectById(1)).thenReturn(g);
         com.tongji.chaigrouping.entity.User u = new com.tongji.chaigrouping.entity.User();
         u.setUsername("user");

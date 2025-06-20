@@ -45,6 +45,9 @@ public class ResumeServiceImplTest {
         User user = new User();
         when(userMapper.selectById(1)).thenReturn(user);
         ResumeDto dto = new ResumeDto();
+        dto.setSchool("Tongji");
+        dto.setGrade("大一");
+        dto.setSkillDescription("Java, Python");
         service.updateResume(1,dto);
         verify(userMapper).updateById(user);
     }
