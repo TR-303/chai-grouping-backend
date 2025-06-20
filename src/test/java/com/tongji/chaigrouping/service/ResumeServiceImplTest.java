@@ -30,11 +30,29 @@ public class ResumeServiceImplTest {
     }
 
     @Test
+    void testGetResumeSuccess() {
+        User user = new User();
+        ResumeDto dto = new ResumeDto();
+        dto.setSchool("A");
+        user.setResume(dto);
+        when(userMapper.selectById(1)).thenReturn(user);
+        ResumeDto result = service.getResume(1);
+        assertEquals("A", result.getSchool());
+    }
+
+    @Test
     void testUpdateResumeSuccess() {
         User user = new User();
         when(userMapper.selectById(1)).thenReturn(user);
         ResumeDto dto = new ResumeDto();
         service.updateResume(1,dto);
         verify(userMapper).updateById(user);
+    }
+
+    @Test
+    void testUpdateResumeNotFound() {
+        when(userMapper.selectById(1)).thenReturn(null);
+        ResumeDto dto = new ResumeDto();
+        assertThrows(InvalidUserException.class, () -> service.updateResume(1, dto));
     }
 }

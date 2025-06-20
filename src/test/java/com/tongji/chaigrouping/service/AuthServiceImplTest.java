@@ -68,4 +68,27 @@ public class AuthServiceImplTest {
         when(userMapper.selectOne(any(QueryWrapper.class))).thenReturn(null);
         assertThrows(InvalidLoginException.class, () -> service.login("u","p"));
     }
+
+    @Test
+    void testRegisterEmptyUsername() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        assertThrows(InvalidLoginException.class, () -> service.register("", "p"));
+    }
+
+    @Test
+    void testRegisterEmptyPassword() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        assertThrows(InvalidLoginException.class, () -> service.register("u", ""));
+    }
+
+    @Test
+    void testLoginWrongPassword() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = new User();
+        user.setUserId(1);
+        user.setUsername("u");
+        user.setPassword(encoder.encode("correct"));
+        when(userMapper.selectOne(any(QueryWrapper.class))).thenReturn(user);
+        assertThrows(InvalidLoginException.class, () -> service.login("u","wrong"));
+    }
 }

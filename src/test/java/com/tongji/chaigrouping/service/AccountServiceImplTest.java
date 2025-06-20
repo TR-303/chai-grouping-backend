@@ -33,6 +33,17 @@ public class AccountServiceImplTest {
     }
 
     @Test
+    void testGetAccountInfoSuccess() {
+        User user = new User();
+        AccountInfoDto dto = new AccountInfoDto();
+        dto.setUsername("u");
+        user.setAccountInfo(dto);
+        when(userMapper.selectById(1)).thenReturn(user);
+        AccountInfoDto result = service.getAccountInfo(1);
+        assertEquals("u", result.getUsername());
+    }
+
+    @Test
     void testUpdateAccountInfoDuplicateUsername() {
         User user = new User();
         when(userMapper.selectById(1)).thenReturn(user);
@@ -51,5 +62,13 @@ public class AccountServiceImplTest {
         dto.setUsername("u");
         service.updateAccountInfo(1,dto);
         verify(userMapper).updateById(user);
+    }
+
+    @Test
+    void testUpdateAccountInfoUserNotFound() {
+        when(userMapper.selectById(1)).thenReturn(null);
+        AccountInfoDto dto = new AccountInfoDto();
+        dto.setUsername("u");
+        assertThrows(InvalidUserException.class, () -> service.updateAccountInfo(1, dto));
     }
 }

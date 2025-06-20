@@ -73,4 +73,19 @@ public class JoinRequestServiceImplTest {
         dto.setAction("UNKNOWN");
         assertThrows(RuntimeException.class, () -> service.respondToRequest(10,1,dto));
     }
+
+    @Test
+    void testRespondToRequestApprove() {
+        JoinRequest jr = new JoinRequest(1,2,1,new Date(),"d","PENDING");
+        when(joinRequestMapper.selectById(1)).thenReturn(jr);
+        Group g = new Group();
+        g.setVolume(3);
+        when(groupMapper.getMemberCount(1)).thenReturn(1);
+        when(groupMapper.selectById(1)).thenReturn(g);
+        RespondToRequestDto dto = new RespondToRequestDto();
+        dto.setAction("APPROVE");
+        service.respondToRequest(10,1,dto);
+        verify(joinRequestMapper).updateById(jr);
+        verify(membershipMapper).insert(any(Membership.class));
+    }
 }
