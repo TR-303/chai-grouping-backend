@@ -32,11 +32,26 @@ public class TaskCreationServiceImpl implements TaskCreationService {
 
     @Override
     public Integer createTask(Integer groupId, TaskCreationDto taskCreationDto) {
+        // 校验传入参数不能为空
+        if (taskCreationDto == null) {
+            throw new IllegalArgumentException("任务创建数据不能为空");
+        }
+        if (groupId == null || groupId <= 0) {
+            throw new IllegalArgumentException("无效的 groupId: " + groupId);
+        }
+
         Task task = new Task();
         task.initTask(groupId, taskCreationDto);
         taskMapper.insert(task);
         Integer assigneeId = taskCreationDto.getAssigneeId();
+
+        var group = groupMapper.selectById(groupId);
+        if (group == null) {
+            throw new IllegalArgumentException("找不到对应的分组，groupId: " + groupId);
+        }
+
         String groupName = groupMapper.selectById(groupId).getName();
+
         if (assigneeId != null) {
             CreateNotificationDto createNotificationDto = new CreateNotificationDto(
                     "任务分配",
