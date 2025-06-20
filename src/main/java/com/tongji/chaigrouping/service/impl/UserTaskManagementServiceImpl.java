@@ -14,6 +14,10 @@ public class UserTaskManagementServiceImpl implements UserTaskManagementService 
     @Autowired
     private TaskMapper taskMapper;
 
+    public UserTaskManagementServiceImpl(TaskMapper taskMapper) {
+        this.taskMapper = taskMapper;
+    }
+
     @Override
     public List<TaskListItemDto> getUserTaskList(Integer userId) {
         return taskMapper.getUserTaskList(userId);

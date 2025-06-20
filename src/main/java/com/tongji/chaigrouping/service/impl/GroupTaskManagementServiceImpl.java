@@ -14,7 +14,9 @@ import java.util.List;
 public class GroupTaskManagementServiceImpl implements GroupTaskManagementService {
     @Autowired
     private TaskMapper taskMapper;
-
+    public GroupTaskManagementServiceImpl(TaskMapper taskMapper) {
+        this.taskMapper = taskMapper;
+    }
     @Override
     public List<TaskListItemDto> getTaskList(Integer groupId) {
         return taskMapper.getGroupTaskList(groupId);
@@ -22,13 +24,32 @@ public class GroupTaskManagementServiceImpl implements GroupTaskManagementServic
 
     @Override
     public void reassignTask(Integer taskId, Integer assigneeId) {
+        if (taskId == null || assigneeId == null) {
+            throw new IllegalArgumentException("taskId and assigneeId cannot be null");
+        }
         Task task = taskMapper.selectById(taskId);
+
+        if (task == null) {
+            throw new IllegalArgumentException("Task not found for taskId: " + taskId);
+        }
+
+        if (task.getState() == null) {
+            throw new IllegalArgumentException("State cannot be null");
+        }
+
+        if (task.getState().equals("已完成")) {
+            throw new IllegalStateException("Task is already completed and cannot be reassigned");
+        }
+
         task.reassign(assigneeId);
         taskMapper.updateById(task);
     }
 
     @Override
     public TaskDetailDto getTaskDetail(Integer taskId) {
+        if (taskId == null || taskId <= 0) {
+            throw new IllegalArgumentException("taskId must be a positive integer.");
+        }
         return taskMapper.getTaskDetailById(taskId);
     }
 }
