@@ -11,5 +11,6 @@ public class GroupDetailResponseDto {
     private String description;
     private Integer volume;
     private Integer visibility;
+    private Integer approvalRequired;
     private List<GroupMemberBriefDto> members;
 }

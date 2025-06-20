@@ -6,10 +6,7 @@ import com.tongji.chaigrouping.dto.RespondToRequestDto;
 import com.tongji.chaigrouping.entity.Group;
 import com.tongji.chaigrouping.entity.JoinRequest;
 import com.tongji.chaigrouping.entity.Membership;
-import com.tongji.chaigrouping.mapper.GroupMapper;
-import com.tongji.chaigrouping.mapper.JoinRequestMapper;
-import com.tongji.chaigrouping.mapper.MembershipMapper;
-import com.tongji.chaigrouping.mapper.UserMapper;
+import com.tongji.chaigrouping.mapper.*;
 import com.tongji.chaigrouping.service.JoinRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +28,8 @@ public class JoinRequestServiceImpl implements JoinRequestService {
     UserMapper userMapper;
     @Autowired
     NotificationListServiceImpl notificationListServiceImpl;
+    @Autowired
+    NotificationMapper notificationMapper;
 
     @Override
     @Transactional
@@ -85,10 +84,12 @@ public class JoinRequestServiceImpl implements JoinRequestService {
                 throw new RuntimeException("组已满，无法加入！");
             request.setState("APPROVED");
             joinRequestMapper.updateById(request);
+            notificationMapper.markJoinRequestNotificationAsRead(requestId);
             membershipMapper.insert(new Membership(groupId, request.getUserId(), new Date()));
         } else if (reject) {
             request.setState("REJECTED");
             joinRequestMapper.updateById(request);
+            notificationMapper.markJoinRequestNotificationAsRead(requestId);
         } else {
             throw new RuntimeException("Unknown action");
         }

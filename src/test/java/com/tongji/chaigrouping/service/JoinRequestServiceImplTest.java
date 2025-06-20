@@ -6,10 +6,7 @@ import com.tongji.chaigrouping.dto.RespondToRequestDto;
 import com.tongji.chaigrouping.entity.Group;
 import com.tongji.chaigrouping.entity.JoinRequest;
 import com.tongji.chaigrouping.entity.Membership;
-import com.tongji.chaigrouping.mapper.GroupMapper;
-import com.tongji.chaigrouping.mapper.JoinRequestMapper;
-import com.tongji.chaigrouping.mapper.MembershipMapper;
-import com.tongji.chaigrouping.mapper.UserMapper;
+import com.tongji.chaigrouping.mapper.*;
 import com.tongji.chaigrouping.service.impl.JoinRequestServiceImpl;
 import com.tongji.chaigrouping.service.impl.NotificationListServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +25,7 @@ public class JoinRequestServiceImplTest {
     private GroupMapper groupMapper;
     private UserMapper userMapper;
     private NotificationListServiceImpl notificationService;
+    private NotificationMapper notificationMapper;
     private JoinRequestServiceImpl service;
 
     @BeforeEach
@@ -37,12 +35,14 @@ public class JoinRequestServiceImplTest {
         groupMapper = mock(GroupMapper.class);
         userMapper = mock(UserMapper.class);
         notificationService = mock(NotificationListServiceImpl.class);
+        notificationMapper = mock(NotificationMapper.class);
         service = new JoinRequestServiceImpl();
         ReflectionTestUtils.setField(service, "joinRequestMapper", joinRequestMapper);
         ReflectionTestUtils.setField(service, "membershipMapper", membershipMapper);
         ReflectionTestUtils.setField(service, "groupMapper", groupMapper);
         ReflectionTestUtils.setField(service, "userMapper", userMapper);
         ReflectionTestUtils.setField(service, "notificationListServiceImpl", notificationService);
+        ReflectionTestUtils.setField(service, "notificationMapper", notificationMapper);
     }
 
     @Test

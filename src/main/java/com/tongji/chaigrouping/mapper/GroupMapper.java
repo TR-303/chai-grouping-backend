@@ -35,7 +35,8 @@ public interface GroupMapper extends BaseMapper<Group> {
             g.name,
             g.description,
             g.volume,
-            g.visibility AS visibility
+            g.visibility AS visibility,
+            g.approval_required as approvalRequired
         FROM `group` g
         WHERE g.group_id = #{groupId} AND g.disbanded = 0
     """)

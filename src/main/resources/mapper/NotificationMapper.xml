@@ -83,5 +83,12 @@
                  LEFT JOIN notification n ON jr.join_request_id = n.join_request_id
         WHERE n.user_id = #{userId}
     </select>
+    
+    <update id="markJoinRequestNotificationAsRead" parameterType="int">
+        UPDATE notification
+        SET has_read = 1
+        WHERE join_request_id = #{joinRequestId}
+        LIMIT 1
+    </update>
 
 </mapper>
