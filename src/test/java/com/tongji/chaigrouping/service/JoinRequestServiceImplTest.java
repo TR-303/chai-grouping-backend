@@ -1,3 +1,5 @@
+package com.tongji.chaigrouping.service;
+
 import com.tongji.chaigrouping.dto.CreateNotificationDto;
 import com.tongji.chaigrouping.dto.CreateRequestDto;
 import com.tongji.chaigrouping.dto.RespondToRequestDto;
@@ -60,7 +62,7 @@ public class JoinRequestServiceImplTest {
 
         verify(membershipMapper).insert(any(Membership.class));
         verify(notificationService).sendNotification(eq(10), any(CreateNotificationDto.class));
-        verify(joinRequestMapper, never()).insert(any());
+        verify(joinRequestMapper, never()).insert((JoinRequest) any());
     }
 
     @Test

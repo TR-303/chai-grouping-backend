@@ -1,3 +1,5 @@
+package com.tongji.chaigrouping.service;
+
 import com.tongji.chaigrouping.dto.ResumeDto;
 import com.tongji.chaigrouping.entity.User;
 import com.tongji.chaigrouping.exception.InvalidUserException;

@@ -1,4 +1,5 @@
-import com.tongji.chaigrouping.entity.JoinRequest;
+package com.tongji.chaigrouping.entity;
+
 import org.junit.jupiter.api.Test;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;

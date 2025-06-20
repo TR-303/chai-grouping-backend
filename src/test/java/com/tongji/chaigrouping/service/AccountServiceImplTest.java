@@ -1,3 +1,5 @@
+package com.tongji.chaigrouping.service;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tongji.chaigrouping.dto.AccountInfoDto;
 import com.tongji.chaigrouping.entity.User;

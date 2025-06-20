@@ -1,3 +1,5 @@
+package com.tongji.chaigrouping.service;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tongji.chaigrouping.dto.LoginResultDto;
 import com.tongji.chaigrouping.entity.User;
@@ -8,8 +10,6 @@ import com.tongji.chaigrouping.utils.JwtTokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;

@@ -1,6 +1,7 @@
+package com.tongji.chaigrouping.entity;
+
 import com.tongji.chaigrouping.dto.AccountInfoDto;
 import com.tongji.chaigrouping.dto.ResumeDto;
-import com.tongji.chaigrouping.entity.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
