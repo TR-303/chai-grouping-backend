@@ -24,10 +24,27 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void register(String username, String password) {
+        // 1) 用户名空或全空白
+        if (username == null || username.isBlank()) {
+            throw new InvalidLoginException("Username cannot be empty");
+        }
+        // 2) 用户名过长
+        if (username.length() > 64) {
+            throw new InvalidLoginException("Username too long");
+        }
+        // 3) 密码空
+        if (password == null || password.isEmpty()) {
+            throw new InvalidLoginException("Password cannot be empty");
+        }
+        // 4) 密码过长
+        if (password.length() > 128) {
+            throw new InvalidLoginException("Password too long");
+        }
+        // 5) 已存在校验
         if (userMapper.exists(new QueryWrapper<User>().eq("username", username))) {
             throw new InvalidLoginException("Username already exists");
         }
-
+        // 6) 真正插入
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
