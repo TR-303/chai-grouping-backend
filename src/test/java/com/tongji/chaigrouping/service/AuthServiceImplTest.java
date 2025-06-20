@@ -110,4 +110,10 @@ public class AuthServiceImplTest {
         when(userMapper.selectOne(any(QueryWrapper.class))).thenReturn(user);
         assertThrows(InvalidLoginException.class, () -> service.login("u","wrong"));
     }
+
+    @Test
+    void testLoginEmptyUsername() {
+        when(userMapper.selectOne(any(QueryWrapper.class))).thenReturn(null);
+        assertThrows(InvalidLoginException.class, () -> service.login("", "p"));
+    }
 }
