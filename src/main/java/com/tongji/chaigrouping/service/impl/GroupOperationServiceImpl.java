@@ -148,28 +148,39 @@ public class GroupOperationServiceImpl implements GroupOperationService {
     @Override
     @Transactional
     public Map<String, Object> disbandGroup(Integer leaderId, Integer groupId) {
-        Map<String, Object> result = new HashMap<>();
-        if (!Objects.equals(leaderId, groupMapper.selectById(groupId).getLeaderId())){
-            result.put("message", "您不是组长，无权解散此群组。");
-            return result;
+        if (leaderId == null || groupId == null) {
+            throw new IllegalArgumentException("不合法请求参数");
+        }
+        Group group = groupMapper.selectById(groupId);
+        if (group == null) {
+            throw new IllegalArgumentException("小组不存在");
+        }
+        if (!Objects.equals(leaderId, group.getLeaderId())) {
+            throw new AccessDeniedException("您不是组长，无权解散此群组。");
         }
         List<JoinRequest> requests = joinRequestMapper.selectByGroupId(groupId);
-        for(JoinRequest request : requests){
-            if(request.getState().equals("PENDING")) {
+        for (JoinRequest request : requests) {
+            if ("PENDING".equals(request.getState())) {
                 request.setState("REJECT");
-                notificationListServiceImpl.sendNotification(request.getUserId(), new CreateNotificationDto(
+                notificationListServiceImpl.sendNotification(
+                    request.getUserId(),
+                    new CreateNotificationDto(
                         "您发送的加入请求失效",
-                        "您想要加入的目标小组" + groupMapper.selectById(groupId).getName() + "已经解散。",
-                        null));
+                        "您想要加入的目标小组" + group.getName() + "已经解散。",
+                        null
+                    )
+                );
             }
         }
-
-        String groupName = groupMapper.selectById(groupId).getName();
-        Group group = groupMapper.selectById(groupId);
+        String groupName = group.getName();
         group.setDisbanded(1);
         groupMapper.updateById(group);
+        sendNotificationToAllGroupMembers(
+            groupId,
+            new CreateNotificationDto("小组解散", "小组 " + groupName + " 已解散", null)
+        );
+        Map<String, Object> result = new HashMap<>();
         result.put("message", "小组解散成功");
-        sendNotificationToAllGroupMembers(groupId, new CreateNotificationDto("小组解散", "小组 "+ groupName + " 已解散", null));
         return result;
     }
 

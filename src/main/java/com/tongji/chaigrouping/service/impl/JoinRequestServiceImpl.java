@@ -30,15 +30,23 @@ public class JoinRequestServiceImpl implements JoinRequestService {
     NotificationListServiceImpl notificationListServiceImpl;
     @Autowired
     NotificationMapper notificationMapper;
+    @Autowired
+    GroupMemberServiceImpl groupMemberServiceImpl;
 
     @Override
     @Transactional
     public void createRequest(Integer userId, Integer groupId, CreateRequestDto requestDto)throws RuntimeException {
         // 获取关于目标小组的信息
         Group group = groupMapper.selectById(groupId);
+        if ((group == null || group.getDisbanded() != 0)) {
+            throw new RuntimeException("小组不存在");
+        }
         boolean needApproval = group.getApprovalRequired() != 0;
         String groupName = group.getName();
         Integer leaderId = group.getLeaderId();
+        if(groupMemberServiceImpl.isMember(groupId, userId)) {
+            throw new RuntimeException("您已经是该小组的成员了");
+        }
 
         // 获取关于申请人的信息
         String username = userMapper.selectById(userId).getUsername();

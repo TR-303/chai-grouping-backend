@@ -33,6 +33,12 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Autowired
     private UserMapper userMapper;
 
+    public boolean isMember(Integer groupId, Integer userId) {
+        QueryWrapper<Membership> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId).eq("group_id", groupId);
+        return membershipMapper.selectCount(queryWrapper) > 0;
+    }
+
     @Override
     public GroupMemberDetailDto queryGroupMember(Integer userId, Integer groupId, Integer memberId) throws AccessDeniedException {
         if (!membershipMapper.isMember(groupId, userId)) {

@@ -65,7 +65,11 @@ public class GroupController {
     public ResponseEntity<Object> disbandGroup(HttpServletRequest request,
                                               @PathVariable Integer group_id) {
         Integer userId = (Integer) request.getAttribute("X-User-id");
-        return ResponseEntity.ok(groupOpService.disbandGroup(userId, group_id));
+        try {
+            return ResponseEntity.ok(groupOpService.disbandGroup(userId, group_id));
+        }catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{group_id}/{member_id}")
@@ -76,7 +80,7 @@ public class GroupController {
         try {
             return ResponseEntity.ok(groupMemberService.queryGroupMember(userId, group_id, member_id));
         } catch (Exception e) {
-            return ResponseEntity.status(403).body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
@@ -84,12 +88,13 @@ public class GroupController {
     public ResponseEntity<Object> applyJoinGroup(HttpServletRequest request,
                                                  @PathVariable Integer group_id,@RequestBody CreateRequestDto requestDto) {
         Integer userId = (Integer) request.getAttribute("X-User-id");
+        if(requestDto.getDescription()==null)return ResponseEntity.status(400).body("申请理由不能为空。");
         try {
             joinRequestService.createRequest(userId, group_id, requestDto);
             return ResponseEntity.ok(Map.of("message", "已发送加入请求。"));
         }
         catch (Exception e) {
-            return ResponseEntity.status(403).body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
