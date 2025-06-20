@@ -48,6 +48,37 @@ public class AuthServiceImplTest {
         assertThrows(InvalidLoginException.class, () -> service.register("u","p"));
     }
 
+
+
+    @Test
+    void testRegisterEmptyUsername() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        assertThrows(InvalidLoginException.class, () -> service.register("", "p"));
+    }
+
+    @Test
+    void testRegisterEmptyPassword() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        assertThrows(InvalidLoginException.class, () -> service.register("u", ""));
+    }
+
+
+    @Test
+    void testRegisterUsernameTooLong() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        String username = "a".repeat(65);
+        assertThrows(InvalidLoginException.class,
+                () -> service.register(username, "password"));
+    }
+
+    @Test
+    void testRegisterPasswordTooLong() {
+        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
+        String password = "a".repeat(129);
+        assertThrows(InvalidLoginException.class,
+                () -> service.register("username", password));
+    }
+
     @Test
     void testLoginSuccess() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -67,18 +98,6 @@ public class AuthServiceImplTest {
     void testLoginFail() {
         when(userMapper.selectOne(any(QueryWrapper.class))).thenReturn(null);
         assertThrows(InvalidLoginException.class, () -> service.login("u","p"));
-    }
-
-    @Test
-    void testRegisterEmptyUsername() {
-        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
-        assertThrows(InvalidLoginException.class, () -> service.register("", "p"));
-    }
-
-    @Test
-    void testRegisterEmptyPassword() {
-        when(userMapper.exists(any(QueryWrapper.class))).thenReturn(false);
-        assertThrows(InvalidLoginException.class, () -> service.register("u", ""));
     }
 
     @Test
