@@ -21,4 +21,6 @@ public interface NotificationMapper extends BaseMapper<Notification> {
     // 筛选出 该用户的通知中 的 别人的加入请求
     List<JoinRequest> getJoinRequestByReceiverId(Integer userId);
 
+    void markJoinRequestNotificationAsRead(Integer joinRequestId);
+
 }
